@@ -13,11 +13,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Background
+  - Player
+  - Enemies
+  - Platforms
+  - Door
   - 
   - 
   - 
@@ -40,4 +40,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3720279077
+    locked: 0
+  - name: PlatForms
+    uniqueID: 178262937
+    locked: 0
+  - name: Enemies Door
+    uniqueID: 1413320855
+    locked: 0
+  - name: Player
+    uniqueID: 472874307
     locked: 0
