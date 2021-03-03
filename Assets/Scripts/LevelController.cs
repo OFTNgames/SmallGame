@@ -8,6 +8,7 @@ public class LevelController : MonoBehaviour
     public static event System.Action<int, bool> CountDownEvent = delegate { };
     public static event System.Action<LevelController> CurrentActiveLevelController = delegate { };
     public static event System.Action<bool> LevelEnd = delegate { };
+    public static event System.Action<bool> setActiveUI = delegate { };
 
     [SerializeField] private string _currentLevelName;
     private string _bestTimeIndex;
@@ -32,17 +33,18 @@ public class LevelController : MonoBehaviour
     {
         Player.PlayerDeath += Player_PlayerDeath;
         Door.ExitDoorReached += Door_ExitDoorReached;
+        setActiveUI?.Invoke(true);
     }
 
     private void OnDisable()
     {
         Player.PlayerDeath -= Player_PlayerDeath;
         Door.ExitDoorReached -= Door_ExitDoorReached;
-        SceneManager.UnloadSceneAsync("3UI");
+        setActiveUI?.Invoke(false);
     }
     private void Awake()
     {
-        SceneManager.LoadSceneAsync("3UI", LoadSceneMode.Additive);
+        
     }
 
     void Start()
@@ -58,6 +60,7 @@ public class LevelController : MonoBehaviour
         numberOfAttempts = PlayerPrefs.GetInt(_currentNumberOfAttemptsIndex);
 
         CurrentActiveLevelController?.Invoke(this);
+        Debug.Log("Sent");
 
         _time = 0.0f;
         _hasWon = false;

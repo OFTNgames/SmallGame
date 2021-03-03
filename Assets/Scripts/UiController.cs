@@ -10,18 +10,27 @@ public class UiController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _timeText;
     [SerializeField] private TextMeshProUGUI _numberOfAttemptsText;
 
+    [SerializeField] private GameObject _gameUI;
+
     private LevelController _currentLevelController; 
 
     private void OnEnable()
     {
+        Debug.Log("Enable");
         Player.GravityAmount += UpdateGravityBar;
         LevelController.CurrentActiveLevelController += LevelController_CurrentActiveLevelController;
+        LevelController.setActiveUI += LevelController_setActiveUI;
     }
 
     private void OnDisable()
     {
         Player.GravityAmount += UpdateGravityBar;
         LevelController.CurrentActiveLevelController += LevelController_CurrentActiveLevelController;
+        LevelController.setActiveUI -= LevelController_setActiveUI;
+    }
+    private void LevelController_setActiveUI(bool state)
+    {
+        _gameUI.SetActive(state);
     }
 
     private void Update()
@@ -34,6 +43,7 @@ public class UiController : MonoBehaviour
 
     private void LevelController_CurrentActiveLevelController(LevelController obj)
     {
+        Debug.Log("Recieved");
         _currentLevelController = obj;
         _numberOfAttemptsText.text = "Attempts to Clear: " + _currentLevelController.numberOfAttempts.ToString(); ;
     }

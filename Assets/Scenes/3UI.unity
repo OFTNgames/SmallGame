@@ -692,7 +692,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &803431160
 RectTransform:
   m_ObjectHideFlags: 0
@@ -750,6 +750,7 @@ MonoBehaviour:
   _gravityBar: {fileID: 382308145}
   _timeText: {fileID: 180158260}
   _numberOfAttemptsText: {fileID: 666897364}
+  _gameUI: {fileID: 803431159}
 --- !u!4 &810557800
 Transform:
   m_ObjectHideFlags: 0
