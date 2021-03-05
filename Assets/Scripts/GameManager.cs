@@ -6,7 +6,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private ScriptableEventChannel _eventChannel;
+    [SerializeField] private CanvasGroup _faderCanvasGroup;
+    [SerializeField] private float _fadeDuration;
+
     private string _currentActiveSceneName;
+
+    private bool isFading;
 
     private void OnEnable()
     {
@@ -19,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(Fade(0));
         SceneManager.LoadSceneAsync("2MainMenu", LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync("3UI", LoadSceneMode.Additive);
         _currentActiveSceneName = "2MainMenu";
@@ -29,5 +35,22 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync(_currentActiveSceneName);
         _currentActiveSceneName = sceneName;
+    }
+
+    private IEnumerator Fade(float finalAlpha)
+    {
+        isFading = true;
+        _faderCanvasGroup.blocksRaycasts = true;
+
+        float fadeSpeed = Mathf.Abs(_faderCanvasGroup.alpha - finalAlpha)/ _fadeDuration;
+
+        while(!Mathf.Approximately(_faderCanvasGroup.alpha, finalAlpha))
+        {
+            _faderCanvasGroup.alpha = Mathf.MoveTowards(_faderCanvasGroup.alpha, finalAlpha, fadeSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        isFading = false;
+        _faderCanvasGroup.blocksRaycasts = false;
     }
 }
