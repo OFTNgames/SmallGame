@@ -11,11 +11,11 @@ public class GameManager : MonoBehaviour
 
     private string _currentActiveSceneName;
 
-    private bool isFading;
+    private bool _isFading;
 
     private void OnEnable()
     {
-        _eventChannel.ScriptableEvent += SceneChange;     
+        _eventChannel.ScriptableEvent += SceneChange;
     }
     private void OnDisable()
     {
@@ -24,22 +24,53 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(Fade(0));
-        SceneManager.LoadSceneAsync("2MainMenu", LoadSceneMode.Additive);
+        _faderCanvasGroup.alpha = 1f;
+        StartCoroutine(LoadSceneAndSetActive("2MainMenu"));
         SceneManager.LoadSceneAsync("3UI", LoadSceneMode.Additive);
-        _currentActiveSceneName = "2MainMenu";
+        StartCoroutine(Fade(0));
     }
 
     private void SceneChange(string sceneName)
     {
-        SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync(_currentActiveSceneName);
+        StartCoroutine(FadeAndSwitchScenes(sceneName));
+    }
+
+    private void ReloadLevel()
+    {
+
+    }
+
+    private IEnumerator ReloadScenes()
+    {
+        yield return StartCoroutine(Fade(1f));
+        //beforeSceneUnload
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        yield return StartCoroutine(LoadSceneAndSetActive(SceneManager.GetActiveScene().name));
+        //afterSceneLoad
+        yield return StartCoroutine(Fade(0f));
+    }
+
+    private IEnumerator FadeAndSwitchScenes(string sceneName)
+    {
+        yield return StartCoroutine(Fade(1f));
+        //beforeSceneUnload
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        yield return StartCoroutine(LoadSceneAndSetActive(sceneName));
+        //afterSceneLoad
+        yield return StartCoroutine(Fade(0f));
+    }
+
+    private IEnumerator LoadSceneAndSetActive(string sceneName)
+    {
+        yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         _currentActiveSceneName = sceneName;
+        Scene newlyLoadedScene = SceneManager.GetSceneByName(_currentActiveSceneName);
+        SceneManager.SetActiveScene(newlyLoadedScene);
     }
 
     private IEnumerator Fade(float finalAlpha)
     {
-        isFading = true;
+        _isFading = true;
         _faderCanvasGroup.blocksRaycasts = true;
 
         float fadeSpeed = Mathf.Abs(_faderCanvasGroup.alpha - finalAlpha)/ _fadeDuration;
@@ -50,7 +81,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        isFading = false;
+        _isFading = false;
         _faderCanvasGroup.blocksRaycasts = false;
     }
 }

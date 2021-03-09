@@ -9,14 +9,16 @@ public class UiController : MonoBehaviour
     [SerializeField] private Image _gravityBar;
     [SerializeField] private TextMeshProUGUI _timeText;
     [SerializeField] private TextMeshProUGUI _numberOfAttemptsText;
+    [SerializeField] private GameObject _optionsMenu;
 
     [SerializeField] private GameObject _gameUI;
+    [SerializeField] private ScriptableEventChannel _eventChannel;
 
     private LevelController _currentLevelController; 
 
     private void OnEnable()
     {
-        Debug.Log("Enable");
+        _eventChannel.ScriptableOptionMenu += OptionsMenu;
         Player.GravityAmount += UpdateGravityBar;
         LevelController.CurrentActiveLevelController += LevelController_CurrentActiveLevelController;
         LevelController.setActiveUI += LevelController_setActiveUI;
@@ -24,8 +26,9 @@ public class UiController : MonoBehaviour
 
     private void OnDisable()
     {
-        Player.GravityAmount += UpdateGravityBar;
-        LevelController.CurrentActiveLevelController += LevelController_CurrentActiveLevelController;
+        _eventChannel.ScriptableOptionMenu -= OptionsMenu;
+        Player.GravityAmount -= UpdateGravityBar;
+        LevelController.CurrentActiveLevelController -= LevelController_CurrentActiveLevelController;
         LevelController.setActiveUI -= LevelController_setActiveUI;
     }
     private void LevelController_setActiveUI(bool state)
@@ -43,7 +46,6 @@ public class UiController : MonoBehaviour
 
     private void LevelController_CurrentActiveLevelController(LevelController obj)
     {
-        Debug.Log("Recieved");
         _currentLevelController = obj;
         _numberOfAttemptsText.text = "Attempts to Clear: " + _currentLevelController.numberOfAttempts.ToString(); ;
     }
@@ -51,5 +53,10 @@ public class UiController : MonoBehaviour
     private void UpdateGravityBar(float current, float max)
     {
         _gravityBar.fillAmount = current / max;
+    }
+
+    private void OptionsMenu()
+    {
+        _optionsMenu.SetActive(true);
     }
 }

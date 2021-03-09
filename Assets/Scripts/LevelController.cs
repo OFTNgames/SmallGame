@@ -60,7 +60,6 @@ public class LevelController : MonoBehaviour
         numberOfAttempts = PlayerPrefs.GetInt(_currentNumberOfAttemptsIndex);
 
         CurrentActiveLevelController?.Invoke(this);
-        Debug.Log("Sent");
 
         _time = 0.0f;
         _hasWon = false;
