@@ -9,7 +9,9 @@ public class LevelController : MonoBehaviour
     public static event System.Action<LevelController> CurrentActiveLevelController = delegate { };
     public static event System.Action<bool> LevelEnd = delegate { };
     public static event System.Action<bool> setActiveUI = delegate { };
+    public static event System.Action<bool> PauseGame = delegate { };
 
+    [SerializeField] private ScriptableEventChannel _scriptableEvent;
     [SerializeField] private string _currentLevelName;
     private string _bestTimeIndex;
     private string _currentNumberOfAttemptsIndex;
@@ -28,6 +30,7 @@ public class LevelController : MonoBehaviour
     private bool _hasWon;
     private bool _haslost;
     private bool _isPlaying;
+    private bool _pause;
 
     private void OnEnable()
     {
@@ -42,11 +45,6 @@ public class LevelController : MonoBehaviour
         Door.ExitDoorReached -= Door_ExitDoorReached;
         setActiveUI?.Invoke(false);
     }
-    private void Awake()
-    {
-        
-    }
-
     void Start()
     {
         _bestNumberOfAttemptsIndex = _currentLevelName + "bestAttempts";
@@ -73,12 +71,32 @@ public class LevelController : MonoBehaviour
     {
         if(_isPlaying)
         {
+            Time.timeScale = 1f;
             _time += Time.deltaTime;
             timePlaying = System.TimeSpan.FromSeconds(_time);
         }
         else
         {
             Time.timeScale = 0;
+        }
+
+        if(!_haslost && !_hasWon)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if(!_pause)
+                {
+                    _pause = true;
+                    _isPlaying = false;
+                    PauseGame?.Invoke(_pause);
+                }
+                else
+                {
+                    _pause = false;
+                    _isPlaying = true;
+                    PauseGame?.Invoke(_pause);
+                }
+            }
         }
     }
 
@@ -89,6 +107,7 @@ public class LevelController : MonoBehaviour
         numberOfAttempts++;
         PlayerPrefs.SetInt(_currentNumberOfAttemptsIndex, numberOfAttempts);
         LevelEnd?.Invoke(false);
+        _scriptableEvent.ReloadScene();
     }
 
     private void Door_ExitDoorReached()

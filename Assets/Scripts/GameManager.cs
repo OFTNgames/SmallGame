@@ -16,10 +16,12 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         _eventChannel.ScriptableEvent += SceneChange;
+        _eventChannel.ScriptableReloadScene += ReloadLevel;
     }
     private void OnDisable()
     {
         _eventChannel.ScriptableEvent -= SceneChange;
+        _eventChannel.ScriptableReloadScene -= ReloadLevel;
     }
 
     void Start()
@@ -37,15 +39,18 @@ public class GameManager : MonoBehaviour
 
     private void ReloadLevel()
     {
-
+        Debug.Log("here");
+        StartCoroutine(ReloadScenes());
     }
 
     private IEnumerator ReloadScenes()
     {
+        Debug.Log("here2");
         yield return StartCoroutine(Fade(1f));
         //beforeSceneUnload
+        string name = SceneManager.GetActiveScene().name;
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-        yield return StartCoroutine(LoadSceneAndSetActive(SceneManager.GetActiveScene().name));
+        yield return StartCoroutine(LoadSceneAndSetActive(name));
         //afterSceneLoad
         yield return StartCoroutine(Fade(0f));
     }
@@ -77,7 +82,7 @@ public class GameManager : MonoBehaviour
 
         while(!Mathf.Approximately(_faderCanvasGroup.alpha, finalAlpha))
         {
-            _faderCanvasGroup.alpha = Mathf.MoveTowards(_faderCanvasGroup.alpha, finalAlpha, fadeSpeed * Time.deltaTime);
+            _faderCanvasGroup.alpha = Mathf.MoveTowards(_faderCanvasGroup.alpha, finalAlpha, fadeSpeed * Time.unscaledDeltaTime);
             yield return null;
         }
 

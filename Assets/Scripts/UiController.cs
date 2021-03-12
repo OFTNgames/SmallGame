@@ -10,6 +10,8 @@ public class UiController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _timeText;
     [SerializeField] private TextMeshProUGUI _numberOfAttemptsText;
     [SerializeField] private GameObject _optionsMenu;
+    [SerializeField] private GameObject _winMenu;
+    [SerializeField] private GameObject _pauseMenu;
 
     [SerializeField] private GameObject _gameUI;
     [SerializeField] private ScriptableEventChannel _eventChannel;
@@ -22,6 +24,8 @@ public class UiController : MonoBehaviour
         Player.GravityAmount += UpdateGravityBar;
         LevelController.CurrentActiveLevelController += LevelController_CurrentActiveLevelController;
         LevelController.setActiveUI += LevelController_setActiveUI;
+        LevelController.LevelEnd += LevelController_LevelEnd;
+        LevelController.PauseGame += LevelController_PauseGame;
     }
 
     private void OnDisable()
@@ -30,10 +34,8 @@ public class UiController : MonoBehaviour
         Player.GravityAmount -= UpdateGravityBar;
         LevelController.CurrentActiveLevelController -= LevelController_CurrentActiveLevelController;
         LevelController.setActiveUI -= LevelController_setActiveUI;
-    }
-    private void LevelController_setActiveUI(bool state)
-    {
-        _gameUI.SetActive(state);
+        LevelController.LevelEnd -= LevelController_LevelEnd;
+        LevelController.PauseGame -= LevelController_PauseGame;
     }
 
     private void Update()
@@ -58,5 +60,20 @@ public class UiController : MonoBehaviour
     private void OptionsMenu()
     {
         _optionsMenu.SetActive(true);
+    }
+    private void LevelController_LevelEnd(bool won)
+    {
+        if(won)
+        {
+            _winMenu.SetActive(true);
+        }
+    }
+    private void LevelController_setActiveUI(bool state)
+    {
+        _gameUI.SetActive(state);
+    }
+    private void LevelController_PauseGame(bool pauseState)
+    {
+        _pauseMenu.SetActive(pauseState);
     }
 }
