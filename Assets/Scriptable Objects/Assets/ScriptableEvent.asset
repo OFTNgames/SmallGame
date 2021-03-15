@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b06906f2c6f85b4b8516e992df05891, type: 3}
   m_Name: ScriptableEvent
   m_EditorClassIdentifier: 
-  _eventName: 4Level1
+  _eventName: Event

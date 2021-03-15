@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
     {
         _faderCanvasGroup.alpha = 1f;
         StartCoroutine(LoadSceneAndSetActive("2MainMenu"));
-        SceneManager.LoadSceneAsync("3UI", LoadSceneMode.Additive);
         StartCoroutine(Fade(0));
     }
 
