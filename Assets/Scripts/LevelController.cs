@@ -34,13 +34,16 @@ public class LevelController : MonoBehaviour
 
     private void OnEnable()
     {
+        ResumeEvent.ResumeGame += ResumeEvent_ResumeGame;
         Player.PlayerDeath += Player_PlayerDeath;
         Door.ExitDoorReached += Door_ExitDoorReached;
         setActiveUI?.Invoke(true);
     }
 
+
     private void OnDisable()
     {
+        ResumeEvent.ResumeGame -= ResumeEvent_ResumeGame;
         Player.PlayerDeath -= Player_PlayerDeath;
         Door.ExitDoorReached -= Door_ExitDoorReached;
         setActiveUI?.Invoke(false);
@@ -84,7 +87,7 @@ public class LevelController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if(!_pause)
+                if(!_pause && _isPlaying)
                 {
                     _pause = true;
                     _isPlaying = false;
@@ -98,6 +101,11 @@ public class LevelController : MonoBehaviour
                 }
             }
         }
+    }
+    private void ResumeEvent_ResumeGame()
+    {
+        _pause = false;
+        _isPlaying = true;
     }
 
     private void Player_PlayerDeath()

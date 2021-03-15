@@ -5,71 +5,98 @@ using System.Linq;
 
 public class UIMenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject _optionsMenu;
-    [SerializeField] private GameObject _winMenu;
-    [SerializeField] private GameObject _pauseMenu;
-    [SerializeField] private GameObject _gameUI;
-    [SerializeField] private ScriptableEventChannel _eventChannel;
-
-
-    private List<MyUI> _myUIPanelsList;
+    private List<MyUI> _myUIList;
     private MyUI _gameplayUI;
     private MyUI _lastActiveUI;
+    private MyUI _previousUI;
 
     private void Start()
     {
-        _myUIPanelsList = GetComponentsInChildren<MyUI>().ToList();
-        _myUIPanelsList.ForEach(x => x.gameObject.SetActive(false));
-        _gameplayUI = _myUIPanelsList.Find(x => x.menuType == MenuType.GAMEUI);
-        SwitchCanvas(MenuType.MAINMENU);
+        _myUIList = GetComponentsInChildren<MyUI>().ToList();
+        _myUIList.ForEach(x => x.gameObject.SetActive(false));
+        _gameplayUI = _myUIList.Find(x => x.menuType == UIType.GAMEUI);
+        SwitchUI(UIType.MAINMENU);
     }
 
-    public void SwitchCanvas(MenuType type)
+    private void OnEnable()
+    {
+        UISwitcher.ChangeActiveUI += UISwitcher_ChangeActiveUI;
+        LevelController.setActiveUI += LevelController_setActiveUI;
+        LevelController.LevelEnd += LevelController_LevelEnd;
+        LevelController.PauseGame += LevelController_PauseGame;
+    }
+    private void OnDisable()
+    {
+        UISwitcher.ChangeActiveUI -= UISwitcher_ChangeActiveUI;
+        LevelController.setActiveUI -= LevelController_setActiveUI;
+        LevelController.LevelEnd -= LevelController_LevelEnd;
+        LevelController.PauseGame -= LevelController_PauseGame;
+    }
+    
+    public void SwitchUI(UIType type)
     {
         if (_lastActiveUI != null)
         {
             _lastActiveUI.gameObject.SetActive(false);
         }
 
-        if (type == MenuType.NULL)
+        if (type == UIType.NULL)
             return;
 
-        MyUI desiredUI = _myUIPanelsList.Find(x => x.menuType == type);
+        MyUI desiredUI = _myUIList.Find(x => x.menuType == type);
         
         if(desiredUI != null)
         {
             desiredUI.gameObject.SetActive(true);
+            _previousUI = _lastActiveUI;
             _lastActiveUI = desiredUI;
         }
         else { Debug.LogWarning("Not found"); }
     }
 
-    //public void DecativateCanvas()
-    //{ 
-    //    if (_lastActiveUI != null)
-    //    {
-    //        _lastActiveUI.gameObject.SetActive(false);
-    //    }
-    //}
+    public void DecativateUI()
+    { 
+        if (_lastActiveUI != null)
+        {
+            _lastActiveUI.gameObject.SetActive(false);
+            _lastActiveUI = null;
+            _previousUI = null;
 
-    private void OnEnable()
-    {
-        LevelController.setActiveUI += LevelController_setActiveUI;
-        LevelController.LevelEnd += LevelController_LevelEnd;
-        LevelController.PauseGame += LevelController_PauseGame;
+        }
     }
 
-    private void OnDisable()
+    public void GoToPreviousUI()
     {
-        LevelController.setActiveUI -= LevelController_setActiveUI;
-        LevelController.LevelEnd -= LevelController_LevelEnd;
-        LevelController.PauseGame -= LevelController_PauseGame;
+        if (_lastActiveUI != null)
+        {
+            _lastActiveUI.gameObject.SetActive(false);
+            _previousUI.gameObject.SetActive(true);
+            _lastActiveUI = _previousUI;
+        }
     }
+
+
+    private void UISwitcher_ChangeActiveUI(UIType arg1, UIChange arg2)
+    {
+        switch (arg2)
+        {
+            case UIChange.SWITCH:
+                SwitchUI(arg1);
+                break;
+            case UIChange.DEACTIVATE:
+                DecativateUI();
+                break;
+            case UIChange.PREVIOUS:
+                GoToPreviousUI();
+                break;
+        }
+    }
+
 
     private void LevelController_LevelEnd(bool won)
     {
         if(won)
-            SwitchCanvas(MenuType.WINMENU);
+            SwitchUI(UIType.WINMENU);
     }
 
     private void LevelController_setActiveUI(bool state)
@@ -81,11 +108,11 @@ public class UIMenuController : MonoBehaviour
     {
         if(pauseState)
         {
-            SwitchCanvas(MenuType.PAUSEMENU);
+            SwitchUI(UIType.PAUSEMENU);
         }
         else
         {
-            SwitchCanvas(MenuType.NULL);
+            SwitchUI(UIType.NULL);
         }
     }
 }

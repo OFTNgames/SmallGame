@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MenuType 
+public enum UIType 
 {
     NULL = -1,
     GAMEUI = 0,
@@ -11,4 +11,11 @@ public enum MenuType
     OPTIONSMENU = 3,
     PAUSEMENU = 4,
     WINMENU = 5,
+}
+
+public enum UIChange
+{
+    SWITCH,
+    DEACTIVATE,
+    PREVIOUS
 }

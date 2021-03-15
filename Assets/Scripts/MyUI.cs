@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class MyUI : MonoBehaviour
 {
-    public MenuType menuType;
+    public UIType menuType;
 }
