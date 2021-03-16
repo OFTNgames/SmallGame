@@ -2,11 +2,13 @@
 using UnityEngine.UI;
 using TMPro;
 
-public class GameplayUIController:MonoBehaviour
+public class GameplayUIController : MonoBehaviour
 {
     [SerializeField] private Image _gravityBar;
     [SerializeField] private TextMeshProUGUI _timeText;
+    [SerializeField] private TextMeshProUGUI _bestTimeText;
     [SerializeField] private TextMeshProUGUI _numberOfAttemptsText;
+    [SerializeField] private TextMeshProUGUI _fewestNumberOfAttemptsText;
     private LevelController _currentLevelController;
 
     private void OnEnable()
@@ -32,7 +34,17 @@ public class GameplayUIController:MonoBehaviour
     private void LevelController_CurrentActiveLevelController(LevelController obj)
     {
         _currentLevelController = obj;
-        _numberOfAttemptsText.text = "Attempts to Clear: " + _currentLevelController.numberOfAttempts.ToString(); ;
+        _numberOfAttemptsText.text = "Attempts to Clear: " + _currentLevelController.numberOfAttempts.ToString();
+
+        if (_currentLevelController.bestNumberOfAttempts == 0)
+            _fewestNumberOfAttemptsText.text = "Fewest Attempts: -";
+        else
+            _fewestNumberOfAttemptsText.text = "Fewest Attempts: " + _currentLevelController.bestNumberOfAttempts.ToString();
+
+        if (_currentLevelController.bestTime == 0f)
+            _bestTimeText.text = "Best Time: --:--.--";
+        else
+            _bestTimeText.text = "Best Time: " + System.TimeSpan.FromSeconds(_currentLevelController.bestTime).ToString("mm':'ss'.'ff");
     }
 
     private void UpdateGravityBar(float current, float max)

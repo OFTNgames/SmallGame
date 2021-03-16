@@ -5,27 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
 {
+    //EVENTS
     public static event System.Action<int, bool> CountDownEvent = delegate { };
     public static event System.Action<LevelController> CurrentActiveLevelController = delegate { };
     public static event System.Action<bool> LevelEnd = delegate { };
     public static event System.Action<bool> setActiveUI = delegate { };
     public static event System.Action<bool> PauseGame = delegate { };
 
-    [SerializeField] private ScriptableEventChannel _scriptableEvent;
+    [HeaderAttribute("Need To Assign")]
     [SerializeField] private string _currentLevelName;
+    [SerializeField] private int _levelIndex;
+    [SerializeField] private int startCountdown = 3;
+    [SerializeField] private ScriptableEventChannel _scriptableEvent;
+
+    //PUBLIC
+    [HideInInspector] public System.TimeSpan timePlaying;
+    [HideInInspector] public int bestNumberOfAttempts;
+    [HideInInspector] public int numberOfAttempts;
+    [HideInInspector] public float bestTime { get; private set; }
+    
+    private Level _level;
+    
+    private float _time;
+
     private string _bestTimeIndex;
     private string _currentNumberOfAttemptsIndex;
     private string _bestNumberOfAttemptsIndex;
-
-    public int startCountdown = 3;
-    public System.TimeSpan bestTime;
-    public System.TimeSpan timePlaying;
-    public int bestNumberOfAttempts;
-    public int numberOfAttempts;
-    
-    private float _time;
-    private float _bestTime;
-
 
     private bool _hasWon;
     private bool _haslost;
@@ -39,8 +44,6 @@ public class LevelController : MonoBehaviour
         Door.ExitDoorReached += Door_ExitDoorReached;
         setActiveUI?.Invoke(true);
     }
-
-
     private void OnDisable()
     {
         ResumeEvent.ResumeGame -= ResumeEvent_ResumeGame;
@@ -54,9 +57,7 @@ public class LevelController : MonoBehaviour
         _currentNumberOfAttemptsIndex = _currentLevelName + "currentAttempts";
         _bestTimeIndex = _currentLevelName + "bestTime";
         
-        _bestTime = PlayerPrefs.GetFloat(_bestTimeIndex);
-        bestTime = System.TimeSpan.FromSeconds(_bestTime);
-
+        bestTime = PlayerPrefs.GetFloat(_bestTimeIndex);
         bestNumberOfAttempts = PlayerPrefs.GetInt(_bestNumberOfAttemptsIndex);
         numberOfAttempts = PlayerPrefs.GetInt(_currentNumberOfAttemptsIndex);
 
@@ -122,11 +123,11 @@ public class LevelController : MonoBehaviour
     {
         _isPlaying = false;
         _hasWon = true;
-        if (numberOfAttempts < bestNumberOfAttempts)
+        if (numberOfAttempts < bestNumberOfAttempts || bestNumberOfAttempts == 0)
         {
             PlayerPrefs.SetInt(_bestNumberOfAttemptsIndex, numberOfAttempts);
         }
-        if(_time < _bestTime)
+        if (_time < bestTime || bestTime == 0f)
         {
             PlayerPrefs.SetFloat(_bestTimeIndex, _time);
         }

@@ -38,13 +38,11 @@ public class GameManager : MonoBehaviour
 
     private void ReloadLevel()
     {
-        Debug.Log("here");
         StartCoroutine(ReloadScenes());
     }
 
     private IEnumerator ReloadScenes()
     {
-        Debug.Log("here2");
         yield return StartCoroutine(Fade(1f));
         //beforeSceneUnload
         string name = SceneManager.GetActiveScene().name;

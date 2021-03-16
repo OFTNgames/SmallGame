@@ -19,7 +19,7 @@ public class UISwitcher : MonoBehaviour
         _menuButton.onClick.AddListener(OnButtonClicked);
     }
 
-    private void OnButtonClicked()
+    public void OnButtonClicked()
     {
         ChangeActiveUI?.Invoke(desiredCanvasType, changeType);
     }
