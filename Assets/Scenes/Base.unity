@@ -4628,7 +4628,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 4Level1
+          m_StringArgument: 1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1843230028
@@ -4873,9 +4873,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1966849427}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d76ed1076e8cdbf4584f5b7a04e381d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ee92d812a49089458c6e0d456303dce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _numberOfLevels: 0
 --- !u!1 &1980348604
 GameObject:
   m_ObjectHideFlags: 0
@@ -6211,8 +6212,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 70dc1957663fa8f48a00a54286175d9a, type: 2}
         m_TargetAssemblyTypeName: ScriptableEventChannel, Assembly-CSharp
-        m_MethodName: RaiseEvent
-        m_Mode: 5
+        m_MethodName: NextLevel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

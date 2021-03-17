@@ -3385,9 +3385,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3357729070326016802, guid: 19d03fa0d17335c4d995fe9f2de17e0b, type: 3}
+      propertyPath: _levelIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357729070326016802, guid: 19d03fa0d17335c4d995fe9f2de17e0b, type: 3}
       propertyPath: _scriptableEvent
       value: 
       objectReference: {fileID: 11400000, guid: 70dc1957663fa8f48a00a54286175d9a, type: 2}
+    - target: {fileID: 3357729070326016802, guid: 19d03fa0d17335c4d995fe9f2de17e0b, type: 3}
+      propertyPath: _currentLevelName
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3357729070326016803, guid: 19d03fa0d17335c4d995fe9f2de17e0b, type: 3}
       propertyPath: m_Name
       value: LevelController

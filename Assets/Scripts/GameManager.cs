@@ -17,23 +17,30 @@ public class GameManager : MonoBehaviour
     {
         _eventChannel.ScriptableEvent += SceneChange;
         _eventChannel.ScriptableReloadScene += ReloadLevel;
+        _eventChannel.ScriptableLoadNextLevel += NextLevel;
     }
     private void OnDisable()
     {
         _eventChannel.ScriptableEvent -= SceneChange;
         _eventChannel.ScriptableReloadScene -= ReloadLevel;
+        _eventChannel.ScriptableLoadNextLevel -= NextLevel;
     }
 
     void Start()
     {
         _faderCanvasGroup.alpha = 1f;
-        StartCoroutine(LoadSceneAndSetActive("2MainMenu"));
+        StartCoroutine(LoadSceneAndSetActive("MainMenu"));
         StartCoroutine(Fade(0));
     }
 
     private void SceneChange(string sceneName)
     {
         StartCoroutine(FadeAndSwitchScenes(sceneName));
+    }
+
+    private void NextLevel()
+    {
+        StartCoroutine(FadeAndSwitchScenes(SceneUtilityEx.GetNextSceneName()));
     }
 
     private void ReloadLevel()
@@ -85,5 +92,32 @@ public class GameManager : MonoBehaviour
 
         _isFading = false;
         _faderCanvasGroup.blocksRaycasts = false;
+    }
+}
+
+public static class SceneUtilityEx
+{
+    public static string GetNextSceneName()
+    {
+        var nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            return GetSceneNameByBuildIndex(nextSceneIndex);
+        }
+        //return string.Empty;
+        return "MainMenu";
+    }
+
+    public static string GetSceneNameByBuildIndex(int buildIndex)
+    {
+        return GetSceneNameFromScenePath(SceneUtility.GetScenePathByBuildIndex(buildIndex));
+    }
+
+    private static string GetSceneNameFromScenePath(string scenePath)
+    {
+        var sceneNameStart = scenePath.LastIndexOf("/", System.StringComparison.Ordinal) + 1;
+        var sceneNameEnd = scenePath.LastIndexOf(".", System.StringComparison.Ordinal);
+        var sceneNameLength = sceneNameEnd - sceneNameStart;
+        return scenePath.Substring(sceneNameStart, sceneNameLength);
     }
 }
