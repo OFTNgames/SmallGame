@@ -9,6 +9,7 @@ public class ScriptableEventChannel : ScriptableObject
     public UnityEngine.Events.UnityAction ScriptableReloadScene;
     public UnityEngine.Events.UnityAction ScriptableOptionMenu;
     public UnityEngine.Events.UnityAction ScriptableLoadNextLevel;
+    public UnityEngine.Events.UnityAction<float, float> ShakeTheCamera;
     [SerializeField] private string _eventName;
     public void RaiseEvent(string eventString)
     {
@@ -28,5 +29,10 @@ public class ScriptableEventChannel : ScriptableObject
     public void NextLevel()
     {
         ScriptableLoadNextLevel?.Invoke();
+    }
+
+    public void ShakeCamera(float d, float m)
+    {
+        ShakeTheCamera?.Invoke(d, m);
     }
 }

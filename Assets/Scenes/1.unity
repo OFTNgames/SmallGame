@@ -2980,6 +2980,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1225315885}
   - component: {fileID: 1225315884}
+  - component: {fileID: 1225315883}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2987,6 +2988,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1225315883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225315882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5e15b7be756149489c193afaac1c4de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableEvent: {fileID: 11400000, guid: 70dc1957663fa8f48a00a54286175d9a, type: 2}
 --- !u!20 &1225315884
 Camera:
   m_ObjectHideFlags: 0
@@ -3409,6 +3423,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7300753584561586274, guid: bdf7e8fbd733a4743ac92a9ea4f36a1c, type: 3}
+      propertyPath: _scriptableEventChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: 70dc1957663fa8f48a00a54286175d9a, type: 2}
     - target: {fileID: 7300753584561586275, guid: bdf7e8fbd733a4743ac92a9ea4f36a1c, type: 3}
       propertyPath: m_RootOrder
       value: 7

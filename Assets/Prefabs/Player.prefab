@@ -83,6 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6362ca52b8f1bbc428b8ff4967191618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scriptableEventChannel: {fileID: 11400000, guid: 70dc1957663fa8f48a00a54286175d9a, type: 2}
   _speed: 100
   _jumpForce: 400
   _maxGravityControlTime: 3

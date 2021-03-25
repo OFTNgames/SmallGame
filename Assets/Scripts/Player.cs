@@ -8,7 +8,8 @@ public class Player : MonoBehaviour, ICanTakeDamage
     public static event System.Action PlayerDeath = delegate { };
     public static event System.Action<float, float> GravityAmount = delegate { };
 
-   
+    [SerializeField] private ScriptableEventChannel _scriptableEventChannel;
+
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _maxGravityControlTime;
@@ -89,6 +90,7 @@ public class Player : MonoBehaviour, ICanTakeDamage
         {
             _shouldJump = false;
             _rigidBody.AddForce(Vector2.up * _jumpForce);
+            _scriptableEventChannel.ShakeTheCamera?.Invoke(0.05f, 0.025f);
         }
     }
 
@@ -97,6 +99,7 @@ public class Player : MonoBehaviour, ICanTakeDamage
         var platform = collision.collider.gameObject.GetComponent<Platforms>();
         if(platform)
         {
+            _scriptableEventChannel.ShakeTheCamera?.Invoke(0.05f, 0.025f);
             _canJump = true;
         }
     }
@@ -104,6 +107,7 @@ public class Player : MonoBehaviour, ICanTakeDamage
     public void TakeDamage()
     {
         PlayerDeath?.Invoke();
+        _scriptableEventChannel.ShakeTheCamera?.Invoke(0.5f,0.2f);
         Destroy(gameObject);
     }
     private void EndPlayerEffects(bool complete)
