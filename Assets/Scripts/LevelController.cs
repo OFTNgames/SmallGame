@@ -75,13 +75,13 @@ public class LevelController : MonoBehaviour
     {
         if(_isPlaying)
         {
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
             _time += Time.deltaTime;
             timePlaying = System.TimeSpan.FromSeconds(_time);
         }
         else
         {
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
         }
 
         if(!_haslost && !_hasWon)

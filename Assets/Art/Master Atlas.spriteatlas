@@ -61,6 +61,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bcf6968a4bf5d5746bca939e34eccaff, type: 3}
   - {fileID: 21300000, guid: 603f1e3f45e0824408df604976886a39, type: 3}
   - {fileID: 21300000, guid: e9d99f7f404833b41b853ca8c24c67af, type: 3}
+  - {fileID: 21300000, guid: 69c3c98f42f94724a802c1e5a103099d, type: 3}
   m_PackedSpriteNamesToIndex:
   - _loor
   - _all2
@@ -75,5 +76,6 @@ SpriteAtlas:
   - _ero
   - _onster2
   - _onster
+  - ParticleTest
   m_Tag: Master Atlas
   m_IsVariant: 0

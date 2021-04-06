@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, ICanTakeDamage
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _maxGravityControlTime;
     [SerializeField] private float tweenTime;
+    [SerializeField] private GameObject _onDeathEffects; 
     private float _gravityControlTime;
     private Rigidbody2D _rigidBody;
     private Vector2 _inputValues;
@@ -108,6 +109,7 @@ public class Player : MonoBehaviour, ICanTakeDamage
     {
         PlayerDeath?.Invoke();
         _scriptableEventChannel.ShakeTheCamera?.Invoke(0.5f,0.2f);
+        Instantiate(_onDeathEffects, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
     private void EndPlayerEffects(bool complete)

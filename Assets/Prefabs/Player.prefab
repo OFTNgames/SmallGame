@@ -88,6 +88,7 @@ MonoBehaviour:
   _jumpForce: 400
   _maxGravityControlTime: 3
   tweenTime: 1.5
+  _onDeathEffects: {fileID: 1335178171395510611, guid: 576d789915d07f14a9f9453586227f08, type: 3}
 --- !u!1 &7300753585099515325
 GameObject:
   m_ObjectHideFlags: 0

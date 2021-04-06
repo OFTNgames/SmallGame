@@ -13,7 +13,7 @@ public class CameraShake : MonoBehaviour
 
     private void OnDisable()
     {
-        _scriptableEvent.ShakeTheCamera += StartShake;
+        _scriptableEvent.ShakeTheCamera -= StartShake;
     }
 
     private void StartShake(float duration, float magnitude) 
