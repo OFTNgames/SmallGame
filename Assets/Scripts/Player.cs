@@ -14,7 +14,8 @@ public class Player : MonoBehaviour, ICanTakeDamage
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _maxGravityControlTime;
     [SerializeField] private float tweenTime;
-    [SerializeField] private GameObject _onDeathEffects; 
+    [SerializeField] private GameObject _onDeathEffects;
+    [SerializeField] private GameObject _jumpParticles;
     private float _gravityControlTime;
     private Rigidbody2D _rigidBody;
     private Vector2 _inputValues;
@@ -92,6 +93,7 @@ public class Player : MonoBehaviour, ICanTakeDamage
             _shouldJump = false;
             _rigidBody.AddForce(Vector2.up * _jumpForce);
             _scriptableEventChannel.ShakeTheCamera?.Invoke(0.05f, 0.025f);
+            Instantiate(_jumpParticles,transform.position,Quaternion.identity);
         }
     }
 

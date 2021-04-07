@@ -48,9 +48,14 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: -6230322622796116482, guid: 1c1e02a15f5500c43b55fbdee680bd1c, type: 3}
+  - {fileID: -5486639437792315781, guid: 1c1e02a15f5500c43b55fbdee680bd1c, type: 3}
+  - {fileID: -2887641001562857575, guid: 1c1e02a15f5500c43b55fbdee680bd1c, type: 3}
+  - {fileID: -3605665136003765561, guid: 1c1e02a15f5500c43b55fbdee680bd1c, type: 3}
   - {fileID: 21300000, guid: a9f35515cda4a9341b5aa256173d13aa, type: 3}
   - {fileID: 21300000, guid: 26067825b347a724281c5fcb340bf250, type: 3}
   - {fileID: 21300000, guid: 12f6f3c63aceae347b06f0ccc0905d4e, type: 3}
+  - {fileID: 21300000, guid: cb9370d66bdccaf48a4a88c22ee330cc, type: 3}
   - {fileID: 21300000, guid: b2012037def2206468520e1e02d11d8f, type: 3}
   - {fileID: 21300000, guid: ab971c47934ccbe46a747b5657375306, type: 3}
   - {fileID: 21300000, guid: 52ed8687900dd9545be08f5e2a002314, type: 3}
@@ -63,9 +68,14 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e9d99f7f404833b41b853ca8c24c67af, type: 3}
   - {fileID: 21300000, guid: 69c3c98f42f94724a802c1e5a103099d, type: 3}
   m_PackedSpriteNamesToIndex:
+  - JumpParticles_1
+  - JumpParticles_0
+  - JumpParticles_3
+  - JumpParticles_2
   - _loor
   - _all2
   - _all3
+  - _eathPart
   - _ero2
   - _oor
   - _all1

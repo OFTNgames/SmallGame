@@ -1028,6 +1028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51cb2b983ac48d74e8dbc1a7eaf20822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _particlePrefab: {fileID: 8458075957337415639, guid: a506188dd534e434e8918e0d53ea3243, type: 3}
 --- !u!1 &387590584
 GameObject:
   m_ObjectHideFlags: 0
@@ -3423,6 +3424,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7300753584561586274, guid: bdf7e8fbd733a4743ac92a9ea4f36a1c, type: 3}
+      propertyPath: _jumpParticles
+      value: 
+      objectReference: {fileID: 3917072166973255844, guid: 130eb8cd1f7180647837c572eb1b334b, type: 3}
     - target: {fileID: 7300753584561586274, guid: bdf7e8fbd733a4743ac92a9ea4f36a1c, type: 3}
       propertyPath: _scriptableEventChannel
       value: 
