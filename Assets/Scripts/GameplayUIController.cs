@@ -13,13 +13,13 @@ public class GameplayUIController : MonoBehaviour
 
     private void OnEnable()
     {
-        Player.GravityAmount += UpdateGravityBar;
+        PlayerGravityControl.GravityAmount += UpdateGravityBar;
         LevelController.CurrentActiveLevelController += LevelController_CurrentActiveLevelController;
     }
 
     private void OnDisable()
     {
-        Player.GravityAmount -= UpdateGravityBar;
+        PlayerGravityControl.GravityAmount -= UpdateGravityBar;
         LevelController.CurrentActiveLevelController -= LevelController_CurrentActiveLevelController;
     }
 

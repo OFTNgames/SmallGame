@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1388760296558279880}
   - component: {fileID: 5143963901209696310}
   - component: {fileID: 3458829797993787988}
+  - component: {fileID: 3092773895286084143}
+  - component: {fileID: -8302201085560648934}
   m_Layer: 13
   m_Name: Bounce Particle System
   m_TagString: Untagged
@@ -4870,3 +4872,27 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &3092773895286084143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8458075957337415639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b68b1649cdc6d4c9f8d7cef80d48a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8302201085560648934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8458075957337415639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af2fcfe37b4cd2448894e362c6b91ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

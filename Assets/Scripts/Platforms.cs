@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class Platforms : MonoBehaviour
 {
-    [SerializeField] private GameObject _particlePrefab;
+    private Spawner _particlePrefab;
+
+    private void Start()
+    {
+        _particlePrefab = GetComponent<Spawner>();
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.GetComponent<Player>())
+        if(collision.gameObject.GetComponent<Player>() || collision.gameObject.GetComponent<MenuPlayer>())
         {
-            Instantiate(_particlePrefab, collision.GetContact(0).point, Quaternion.Normalize(Quaternion.identity));
+            _particlePrefab.Spawn(collision);
         }
     }
 }

@@ -10,20 +10,10 @@ public class Player : MonoBehaviour, ICanTakeDamage
 
     [SerializeField] private ScriptableEventChannel _scriptableEventChannel;
 
-    [SerializeField] private float _speed;
-    [SerializeField] private float _jumpForce;
-    [SerializeField] private float _maxGravityControlTime;
     [SerializeField] private float tweenTime;
     [SerializeField] private GameObject _onDeathEffects;
-    [SerializeField] private GameObject _jumpParticles;
-    private float _gravityControlTime;
-    private Rigidbody2D _rigidBody;
-    private Vector2 _inputValues;
-    private bool _canJump;
-    private bool _shouldJump;
-    private float _bounciness = 0.5f;
-    private PhysicsMaterial2D _physicsMaterial;
-    private bool _gravityOn;
+    [SerializeField] private float _cameraShakeDur = 0.15f;
+    [SerializeField] private float _cameraShakeAmount = 0.025f;
 
     private void OnEnable()
     {
@@ -35,75 +25,13 @@ public class Player : MonoBehaviour, ICanTakeDamage
         LevelController.LevelEnd -= EndPlayerEffects;
     }
 
-
-    void Start()
-    {
-        _gravityOn = true;
-        _rigidBody = GetComponent<Rigidbody2D>();
-        _gravityControlTime = _maxGravityControlTime;
-    }
-
-    void Update()
-    {
-        _inputValues = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        if(Input.GetKeyDown(KeyCode.Space) && _canJump)
-        {
-            _shouldJump = true;
-            _canJump = false;
-        }
-
-        if(Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            if (_gravityOn)
-            {
-                
-                _gravityOn = false;
-            }
-            else
-            {
-                _gravityOn = true;
-            }
-        }
-
-        GravityTime();
-        GravityAmount?.Invoke(_gravityControlTime,_maxGravityControlTime);
-    }
-
-    private void GravityTime()
-    {
-        if(_gravityOn)
-        {
-            _gravityControlTime = Mathf.Clamp(_gravityControlTime + Time.deltaTime, 0, _maxGravityControlTime);
-            _rigidBody.gravityScale = 1;
-        }
-        else
-        {
-            _gravityControlTime -= Time.deltaTime;
-            _rigidBody.gravityScale = 0;
-            if (_gravityControlTime <= 0)
-                _gravityOn = true;
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        _rigidBody.AddForce(_inputValues * Time.fixedDeltaTime * _speed);
-        if(_shouldJump)
-        {
-            _shouldJump = false;
-            _rigidBody.AddForce(Vector2.up * _jumpForce);
-            _scriptableEventChannel.ShakeTheCamera?.Invoke(0.05f, 0.025f);
-            Instantiate(_jumpParticles,transform.position,Quaternion.identity);
-        }
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         var platform = collision.collider.gameObject.GetComponent<Platforms>();
         if(platform)
         {
-            _scriptableEventChannel.ShakeTheCamera?.Invoke(0.05f, 0.025f);
-            _canJump = true;
+            _scriptableEventChannel.ShakeTheCamera?.Invoke(_cameraShakeDur, _cameraShakeAmount);
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Character/Bounce");
         }
     }
 
@@ -112,6 +40,7 @@ public class Player : MonoBehaviour, ICanTakeDamage
         PlayerDeath?.Invoke();
         _scriptableEventChannel.ShakeTheCamera?.Invoke(0.5f,0.2f);
         Instantiate(_onDeathEffects, transform.position, Quaternion.identity);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Character/Death");
         Destroy(gameObject);
     }
     private void EndPlayerEffects(bool complete)

@@ -53,3 +53,6 @@ TagManager:
   - name: Player
     uniqueID: 472874307
     locked: 0
+  - name: FXS
+    uniqueID: 383992479
+    locked: 0
