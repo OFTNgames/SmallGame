@@ -2,6 +2,8 @@
 
 public class PlayerJump : MonoBehaviour
 {
+    public static event System.Action<bool> JumpState = delegate { };
+
     [SerializeField] private ScriptableEventChannel _scriptableEventChannel;
     [SerializeField] private float _jumpForce;
     
@@ -23,6 +25,7 @@ public class PlayerJump : MonoBehaviour
         {
             _shouldJump = true;
             _canJump = false;
+            JumpState?.Invoke(_canJump);
         }
     }
 
@@ -44,6 +47,7 @@ public class PlayerJump : MonoBehaviour
         if (platform)
         {
             _canJump = true;
+            JumpState?.Invoke(_canJump);
         }
     }
 }

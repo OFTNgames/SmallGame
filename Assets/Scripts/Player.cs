@@ -7,6 +7,7 @@ public class Player : MonoBehaviour, ICanTakeDamage
 {
     public static event System.Action PlayerDeath = delegate { };
     public static event System.Action<float, float> GravityAmount = delegate { };
+   
 
     [SerializeField] private ScriptableEventChannel _scriptableEventChannel;
 

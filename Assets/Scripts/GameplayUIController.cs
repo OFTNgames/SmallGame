@@ -9,18 +9,22 @@ public class GameplayUIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _bestTimeText;
     [SerializeField] private TextMeshProUGUI _numberOfAttemptsText;
     [SerializeField] private TextMeshProUGUI _fewestNumberOfAttemptsText;
+    [SerializeField] private GameObject _canJumpImage;
     private LevelController _currentLevelController;
 
     private void OnEnable()
     {
         PlayerGravityControl.GravityAmount += UpdateGravityBar;
         LevelController.CurrentActiveLevelController += LevelController_CurrentActiveLevelController;
+        PlayerJump.JumpState += PlayerJump_JumpState;
     }
+
 
     private void OnDisable()
     {
         PlayerGravityControl.GravityAmount -= UpdateGravityBar;
         LevelController.CurrentActiveLevelController -= LevelController_CurrentActiveLevelController;
+        PlayerJump.JumpState += PlayerJump_JumpState;
     }
 
     private void Update()
@@ -29,6 +33,10 @@ public class GameplayUIController : MonoBehaviour
         {
             _timeText.text = "Time: " + _currentLevelController.timePlaying.ToString("mm':'ss'.'ff");
         }
+    }
+    private void PlayerJump_JumpState(bool jumpState)
+    {
+        _canJumpImage.SetActive(jumpState);
     }
 
     private void LevelController_CurrentActiveLevelController(LevelController obj)
