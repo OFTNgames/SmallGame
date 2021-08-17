@@ -43,13 +43,14 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FadeAndSwitchScenes(SceneUtilityEx.GetNextSceneName()));
     }
 
-    private void ReloadLevel()
+    private void ReloadLevel(float wait)
     {
-        StartCoroutine(ReloadScenes());
+        StartCoroutine(ReloadScenes(wait));
     }
 
-    private IEnumerator ReloadScenes()
+    private IEnumerator ReloadScenes(float wait)
     {
+        yield return new WaitForSecondsRealtime(wait);
         yield return StartCoroutine(Fade(1f));
         //beforeSceneUnload
         string name = SceneManager.GetActiveScene().name;

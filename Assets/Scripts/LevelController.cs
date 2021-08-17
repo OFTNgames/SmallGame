@@ -17,6 +17,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private int _levelIndex;
     [SerializeField] private int startCountdown = 3;
     [SerializeField] private ScriptableEventChannel _scriptableEvent;
+    [SerializeField] private float _waitTimeOnReload;
 
     //PUBLIC
     [HideInInspector] public System.TimeSpan timePlaying;
@@ -46,6 +47,7 @@ public class LevelController : MonoBehaviour
     }
     private void OnDisable()
     {
+        StopAllCoroutines();
         ResumeEvent.ResumeGame -= ResumeEvent_ResumeGame;
         Player.PlayerDeath -= Player_PlayerDeath;
         Door.ExitDoorReached -= Door_ExitDoorReached;
@@ -53,6 +55,7 @@ public class LevelController : MonoBehaviour
     }
     void Start()
     {
+        Debug.Log("LevelControlStart");
         _bestNumberOfAttemptsIndex = _currentLevelName + "bestAttempts";
         _currentNumberOfAttemptsIndex = _currentLevelName + "currentAttempts";
         _bestTimeIndex = _currentLevelName + "bestTime";
@@ -64,6 +67,7 @@ public class LevelController : MonoBehaviour
         CurrentActiveLevelController?.Invoke(this);
 
         _time = 0.0f;
+        Time.timeScale = 0f;
         _hasWon = false;
         _haslost = false;
         _isPlaying = false;
@@ -78,10 +82,6 @@ public class LevelController : MonoBehaviour
             Time.timeScale = 1f;
             _time += Time.deltaTime;
             timePlaying = System.TimeSpan.FromSeconds(_time);
-        }
-        else
-        {
-            Time.timeScale = 0;
         }
 
         if(!_haslost && !_hasWon)
@@ -112,11 +112,12 @@ public class LevelController : MonoBehaviour
     private void Player_PlayerDeath()
     {
         _isPlaying = false;
+        StartCoroutine(OnPlayerDeath());
         _haslost = true;
         numberOfAttempts++;
         PlayerPrefs.SetInt(_currentNumberOfAttemptsIndex, numberOfAttempts);
         LevelEnd?.Invoke(false);
-        _scriptableEvent.ReloadScene();
+        _scriptableEvent.ReloadScene(_waitTimeOnReload);
     }
 
     private void Door_ExitDoorReached()
@@ -145,5 +146,21 @@ public class LevelController : MonoBehaviour
         CountDownEvent?.Invoke(startCountdown, true);
         _isPlaying = true;
         Time.timeScale = 1f;
+    }
+
+    private IEnumerator OnPlayerDeath()
+    {
+        float time = 0; 
+        float timeLimit = _waitTimeOnReload;
+        float t = 0;
+        while(time < timeLimit)
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 0.25f, t);
+            //Time.fixedDeltaTime = Time.timeScale * 0.2f;
+            time += Time.unscaledDeltaTime;
+            t = time / timeLimit;
+            yield return null;
+        }
+        Time.timeScale = 0.5f;
     }
 }

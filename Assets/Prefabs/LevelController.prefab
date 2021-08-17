@@ -47,5 +47,6 @@ MonoBehaviour:
   _levelIndex: 1
   startCountdown: 3
   _scriptableEvent: {fileID: 11400000, guid: 70dc1957663fa8f48a00a54286175d9a, type: 2}
+  _waitTimeOnReload: 2
   bestNumberOfAttempts: 0
   numberOfAttempts: 0

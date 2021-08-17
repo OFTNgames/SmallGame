@@ -6,7 +6,7 @@ using UnityEngine;
 public class ScriptableEventChannel : ScriptableObject
 {
     public UnityEngine.Events.UnityAction<string> ScriptableEvent;
-    public UnityEngine.Events.UnityAction ScriptableReloadScene;
+    public UnityEngine.Events.UnityAction<float> ScriptableReloadScene;
     public UnityEngine.Events.UnityAction ScriptableOptionMenu;
     public UnityEngine.Events.UnityAction ScriptableLoadNextLevel;
     public UnityEngine.Events.UnityAction<float, float> ShakeTheCamera;
@@ -16,9 +16,9 @@ public class ScriptableEventChannel : ScriptableObject
        ScriptableEvent?.Invoke(eventString);
     }
 
-    public void ReloadScene()
+    public void ReloadScene(float wait)
     {
-        ScriptableReloadScene?.Invoke();
+        ScriptableReloadScene?.Invoke(wait);
     }
 
     public void OptionsMenu()
