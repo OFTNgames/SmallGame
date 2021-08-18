@@ -16,14 +16,22 @@ public class Player : MonoBehaviour, ICanTakeDamage
     [SerializeField] private float _cameraShakeDur = 0.15f;
     [SerializeField] private float _cameraShakeAmount = 0.025f;
 
+    private PlayerJump playerJump;
+    private PlayerMovement playerMovement;
+    private PlayerGravityControl playerGravity;
+    private Rigidbody2D myRigidbody2D;
+
+
     private void OnEnable()
     {
-        LevelController.LevelEnd += EndPlayerEffects;
+        //LevelController.LevelEnd += EndPlayerEffects;
+        Door.ExitDoorReached += EndofLevelPlayerFX;
     }
 
     private void OnDisable()
     {
-        LevelController.LevelEnd -= EndPlayerEffects;
+        //LevelController.LevelEnd -= EndPlayerEffects;
+        Door.ExitDoorReached -= EndofLevelPlayerFX;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -44,6 +52,7 @@ public class Player : MonoBehaviour, ICanTakeDamage
         FMODUnity.RuntimeManager.PlayOneShot("event:/Character/Death");
         Destroy(gameObject);
     }
+    /*
     private void EndPlayerEffects(bool complete)
     {
         if(complete)
@@ -51,12 +60,34 @@ public class Player : MonoBehaviour, ICanTakeDamage
             Tween();
         }
     }
+    */
 
-    private void Tween()
+    private void EndofLevelPlayerFX(Vector3 endingPosition, float time)
     {
+        StartCoroutine(EndLevelTween(endingPosition, time));
+    }
+
+    private IEnumerator EndLevelTween(Vector3 endingPosition, float time)
+    {
+        playerJump = GetComponent<PlayerJump>();
+        playerMovement = GetComponent<PlayerMovement>();
+        playerGravity = GetComponent<PlayerGravityControl>();
+        myRigidbody2D = GetComponent<Rigidbody2D>();
+        playerJump.enabled = false;
+        playerMovement.enabled = false;
+        playerGravity.enabled = false;
+        myRigidbody2D.simulated = false;
+
+
         LeanTween.cancel(gameObject);
+
+        float waitTime = time / 2;
+
+        LeanTween.move(gameObject, endingPosition, waitTime).setIgnoreTimeScale(true);
+        yield return new WaitForSecondsRealtime(waitTime);
+
         transform.localScale = Vector3.one;
 
-        LeanTween.scale(gameObject, Vector3.one * .1f, tweenTime).setIgnoreTimeScale(true);
+        LeanTween.scale(gameObject, Vector3.one * .1f, waitTime).setIgnoreTimeScale(true);
     }
 }

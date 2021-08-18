@@ -120,7 +120,12 @@ public class LevelController : MonoBehaviour
         _scriptableEvent.ReloadScene(_waitTimeOnReload);
     }
 
-    private void Door_ExitDoorReached()
+    private void Door_ExitDoorReached(Vector3 pos, float waitTime)
+    {
+        StartCoroutine(LevelWon(waitTime));
+    }
+
+    private IEnumerator LevelWon(float time)
     {
         _isPlaying = false;
         _hasWon = true;
@@ -132,6 +137,9 @@ public class LevelController : MonoBehaviour
         {
             PlayerPrefs.SetFloat(_bestTimeIndex, _time);
         }
+
+        yield return new WaitForSecondsRealtime(time);
+
         LevelEnd?.Invoke(true);
     }
 
