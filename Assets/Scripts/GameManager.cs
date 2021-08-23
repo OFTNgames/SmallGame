@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ScriptableEventChannel _eventChannel;
     [SerializeField] private CanvasGroup _faderCanvasGroup;
     [SerializeField] private float _fadeDuration;
+    [SerializeField] private GameObject _fadePanel;
 
     private string _currentActiveSceneName;
 
@@ -24,6 +25,11 @@ public class GameManager : MonoBehaviour
         _eventChannel.ScriptableEvent -= SceneChange;
         _eventChannel.ScriptableReloadScene -= ReloadLevel;
         _eventChannel.ScriptableLoadNextLevel -= NextLevel;
+    }
+
+    private void Awake()
+    {
+        _fadePanel.SetActive(true);
     }
 
     void Start()
